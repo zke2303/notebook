@@ -1,5 +1,128 @@
 # Java八股文
 
+## Java基础篇
+
+### 1、什么是OOP（面相对象编程）？
+
+它是一种编程范式，核心思想是把程序设计成一系列**对象**的集合。每个对象包含了数据（也叫**属性**或**状态**）和操作数据的方法（也叫**行为**）。
+
+OOP 的基本特征:
+
+- 封装：
+  - 把对象的数据和操作数据方法绑定起来，对数据的访问只能通过对外公开的接口
+- 继承
+  - 允许一个类（子类）继承另一个类（父类）的属性和方法。子类可以复用父类的代码，并添加自己的特性
+- 多态
+  - 不同的对象执行同一个方法，做出不同的响应
+
+### 2、重载与重写区别
+
+- 重载发生在本类中，重写发生在分类和子类之间
+- 重载的方法名必须相同，重的方法名、参数、返回类型都必须相同
+- 构造方法不能重写
+- 重载的访问修饰符没有限制，重写的访问修饰符权限不能低于父类方法的访问修饰符权限
+
+
+
+### 3、接口与抽象类的区别
+
+- 接口要被类实现，抽像类要被类继承
+- 接口只能有抽象方法，抽象类可以有抽象方法，也可以有普通方法
+- 一个类只能继承一个抽象类，可以实现多个接口
+- 接口不能有构造器，抽象类可以有构造器
+- 抽像类可以有普通变量、常量和静态变量。接口只能有常量
+- 抽像类的成员可以是public、private、protected等。接口默认是public
+
+### 4、深拷贝与浅拷贝的理解
+
+- 浅拷贝
+  - 浅拷贝会创建一个新对象，然后将原始对象中所有**基本类型**的属性值直接复制到新对象中，而对于**引用类型**的属性，它只是复制其**引用地址**，而不是复制其指向的实际对象。
+- 深拷贝 (Deep Copy)
+  - 深拷贝会递归地创建一个新对象，并且将原始对象中所有**嵌套的引用类型**数据都进行完整的复制。它会一直复制到最底层，直到所有属性都是基本类型为止。
+- 简单来说：
+  - 浅考贝，会创建一个对象，然后把基本数据类型的属性赋值到新对象中，而引用数据类型，只是赋值其引用地址。而深拷贝，引用数据类型也是之间复制，而不是复制引用地址
+
+
+
+### 5、sleep和wait区别
+
+- sleep是属于Thread类中的方法，它的作用是释放cpu，给其他线程使用，不释放锁资源
+- wait是属于Object类中的方法，它的作用是释放cpu给其他线程使用，同时释法锁资源
+
+
+
+### 6、什么是自动拆装箱 int和Integer有什么区别
+
+- **自动装箱（Autoboxing）**：就是 Java 编译器自动将**基本数据类型**（如 `int`）转换成对应的**包装类对象**（如 `Integer`）
+
+- **自动拆箱（Unboxing）**：就是 Java 编译器自动将**包装类对象**转换成对应的**基本数据类型**。
+
+
+
+- 区别：
+  - 数据类型不同，int是基本数据类型，Integer是引用数据类型
+  - 默认值不用，int的默认值是0，Integer的默认值是null
+  - 内存占用不同，int占用固定的内存，4个字节，Integer是一个对象，处理需要保存具体值外，还需要额外的内存来存储对象头的信息
+  - 使用方式，int只要用户计算，Integer主要用户需要对象的场景，例如集合中的泛型，因为Java中的集合不能直接存储基本数据类型
+
+### 7、==和equals区别
+
+- ==
+  - 如果是基本数据类型，==的作用是比较变量的值
+  - 如果是引用数据类型，比较的地址值
+- equals
+  - 如果没有重写equals方法，那么比较的是两个对象的地址值
+  - 重写后，一般都是比较对象中的属性的内存
+
+### 8、String能被继承吗 为什么用final修饰 
+
+- String不能被继承，因为使用了final作为修饰符，而被final修饰的类都是不能被继承的
+- 因为String是最常用的类型，为了效率，禁止被继承和重写
+- 使用final的目的是为了安全
+
+### 9、String buffer和String builder区别
+
+- String buffer和String builder中的方法的功能是完全等价的
+- 它们的区别主要在于，String buffer中的方法大部分使用Synchronized作为修饰符，因此是线程安全的。而StringBuilder没有使用Synchronized作为修饰符，是线程不安全的
+- 在单线程的情况下，StringBuilder是更快的，因为不要加锁
+
+### 10、Hashcode的作用
+
+`HashCode` 的作用就是为哈希表提供一个**高效的、快速的索引机制**。它通过将对象映射成一个整数值，来帮助哈希表在大量数据中快速定位和管理对象。
+
+**记住，在 Java 中，如果你重写了 `equals()` 方法，那么你几乎总是需要同时重写 `hashCode()` 方法，以确保你的类在哈希集合中能正确工作。**
+
+
+
+### 11、ArrayList和linkedList的区别
+
+`ArrayList` 的底层是基于**动态数组**实现的，当数组满了后，会自动扩肉，通常扩容为原数组的1.5倍。LinkedList的底层数据结构是双向链表。
+
+
+
+### 12、HashMap和HashTable的区别 
+
+- 线程安全：
+  - HashMap是非线程安全
+  - HashTable是线程安全的
+- HashMap的键和值都可以是null，HashTable的键和值都不能为null
+- 由于HashTable是线程安全的，那么它的性能肯定低于HashMap
+- 直接继承的对象不同 
+
+### 13、Collection包结构，与Collections的区别
+
+Collection是集合类的上级接口，字接口有set、List、LinkedList、ArrayList、Vector、Stack等；Collections是集合类的一个帮组类，它包含各种有关集合操作的的静态多态方法，用于实现集合的搜索、排序、线程安全化等操作。
+
+
+
+### 14、try catch ﬁnally，try里有return，ﬁnally还执行么？
+
+**执行，并且ﬁnally的执行早于try里面的return**，不管try、catch中有什么，final中的代码块都会执行
+
+### 15、多态的作用
+
+允许我们用**统一的方式**处理**不同的对象**，从而实现了**解耦**和**动态绑定**。它使得代码更具**灵活性、可扩展性和可维护性**，是面向对象设计中不可或缺的基石。
+
 ## Mysql篇
 
 ### 1、如何定位慢查询？
@@ -68,7 +191,7 @@
 >- 磁盘读写代价B+Tree更低，非叶子节点只存指针，叶子节点保存数据。
 >- B+Tree的叶子节点是一个双向链表，数便于扫库和区间查询。
 
-![image-20250904200037701](/home/zhang/.config/Typora/typora-user-images/image-20250904200037701.png)
+![](/home/zhang/Learning/java/笔记/resource/image-20250904200037701.png)
 
 ### 4、什么是聚簇索引什么是非聚簇索引？
 
@@ -140,7 +263,6 @@
    >
    > 如果你创建了一个联合索引（name, age, email）,在你使用索引进行查询时，使用select * from student where age=18;时，没有使用联合索引的最左的nama索引，那么这次查询就不会走索引，而是全表扫描。如果是select * from student name="zhangsan" and email="123@gmail.com"；使用了最左前缀的索引，但是跳过了age，那么，这条sql语句它**会**走索引，但只会走到**`name` 这一层**，之后的 `age` 和 `email` 索引都无法被有效利用。这会导致在找到 `name` 对应的记录后，需要进行回表操作，性能不如完美命中索引的情况。
    
-
 2. 不要在索引列上进行运算操作，索引将失效。
 3. 字符串不加引号，造成索引失效。其原因是，在查询时，没有对字符串加单引号，MySQL的查询优化器，回自动的进行类型转换，造成索引失效。
 4. 使用like的模糊查询有可能造成索引失效。当使用头部模糊匹配时，索引失效。如果仅仅是尾部模糊匹配，索引不会失效
@@ -199,7 +321,9 @@
 
 ## 框架篇
 
-### 1、Spring框架中的单例Bean是线程安全的吗？
+### Spring
+
+#### 1、Spring框架中的单例Bean是线程安全的吗？
 
 Spring框架中的Bean它不是线程安全的。
 
@@ -207,7 +331,7 @@ Spring框架中有一个@Scope注解，默认是singleton，单例的。
 
 因为一般在spring中的bean都是注入无状态的对象，没有线程安全问题，如果在bean中定义了可修改的成员变量，就需要考虑线程安全问题了，可以使用多例或者加锁来解决。
 
-### 2、什么是AOP，你们的项目中有没有使用到AOP？
+#### 2、什么是AOP，你们的项目中有没有使用到AOP？
 
 AOP成为面向切面编程，用户将哪些与业务无关、但是却多个对象产生影响的公告行为和逻辑，抽取并封装成一个可重用的模块，这个模块被命名为“切面”（Aspect），减少系统中的重复代码，降低了模块间的耦合度，同时提高了系统的可维护性。
 
@@ -222,7 +346,7 @@ AOP成为面向切面编程，用户将哪些与业务无关、但是却多个�
 
 
 
-### 3、Spring中的事务是如何实现的
+#### 3、Spring中的事务是如何实现的
 
 Spring支持编程式事务管理和声明式事务管理两种方式。
 
@@ -232,11 +356,117 @@ Spring支持编程式事务管理和声明式事务管理两种方式。
 
   
 
-### 4、Spring中事务失效的场景有哪些？
+#### 4、Spring中事务失效的场景有哪些？
 
 - 异常捕获处理
   - 
 - 抛出检测异常
 - 非public方法
   - 非public的方法，无法暴露出这个方法的代理对象，而AOP是基于代理实现的，因此无法进行AOP，无法进行AOP，事务当然失效了
+
+#### 5、Spring中事务个隔离级别
+
+在spring中，为了方便管理事务的隔离级别，Spring定义了一个enum类：Isolation
+
+在这个enum类Isolation中，有五个值
+
+- TransactionDefinition.ISOLATION_DEFAULT: 使用数据库的默认隔离级别
+- TransactionDefinition.ISOLATION_READ_UNCOMMITTED：读未提交
+- TransactionDefinition.ISOLATION_READ_COMMITTED
+- TransactionDefinition.ISOLATION_REPEARTABLE_READ
+- TransactionDefinition.ISOLATION_SERIALIZABLE
+
+
+
+#### 6、Bean的注入方式
+
+1. 构造器注入，这种方式也是Spring推荐的方式。在类的构造器上添加 `@Autowired` 注解。
+2. setting注入
+3. Field注入，直接在字段中加入`@Autowired`注解
+
+
+
+#### 7、选择构造器注入还是setting注入
+
+在spring官方中，推荐使用构造器注入
+
+- 依赖完整性：确保所有必需依赖在对象创建时就被注入，避免了空指针异常的风险。
+
+- 不可变性：有助于创建不可变对象，提高了线程安全性。
+
+- 初始化保证：组件在使用前已完全初始化，减少了潜在的错误。
+
+- 测试便利性：在单元测试中，可以直接通过构造函数传入模拟的依赖项，而不必依赖 Spring 容器进行注入。
+
+
+
+
+
+### SpringMVC:
+
+#### 1、SpringMVC执行流程
+
+DispatcherServlet是一个前端调度器，所有它本身不执行任何业务操作，只是调度个个Hanlder，把参数传给这些Handler
+
+![img](https://i-blog.csdnimg.cn/blog_migrate/8862b44243d028ac82957e440d9825c1.png)
+
+![img](https://i-blog.csdnimg.cn/blog_migrate/e97576d372740e4389a58af0cd7b8554.png)
+
+1. 用户发送请求到DispatcherServlet中
+2. DispatcherServlet调度HandlerMapper，HanderMapper根据请求Url找到对应的Controller和拦截器构造一个HandlerExecutionChain，并返回给DispatcherServlet
+3. DispatcherServlet调度HandlerAdapter，HanderAdapter根据HandlerExecutionChain找到对应的执行器，执行完这个HandlerExecutionChain后得到ModelAndView，并将这个ModelAndView返回给DispatcherServlet
+4. DispatcherServlet将ModelAndView传递给ViewResolver解析，将解析结果view返回DispatcherServlet
+5. DispatcherServlet去渲染view
+6. `DispatcherServlet` 将渲染好的 HTML 内容封装成 HTTP 响应，返回给客户端（浏览器）。
+
+
+
+### SpringBoot
+
+#### SpringBoot自动装配的原理
+
+Spring Boot 的自动装配主要依赖于以下三个核心注解：
+
+1. **`@SpringBootApplication`**
+2. **`@EnableAutoConfiguration`**
+3. **`@ConditionalOnClass`** 和 `@ConditionalOnMissingBean` 等条件注解
+
+在SpringBoot的启动类中，能找到一个`@SpringBootApplication`注解，这个注解就是SpringBoot的核心，在`@SpringBootApplication`中，有三个主要注解来实现自动装配， `@SpringBootConfiguration`、`@EnableAutoConfiguration`、`@ComponentScan`。这三个注解，`@EnableAutoConfiguration`是核心，`@SpringBootConfiguration`其实就是`@Configuration`，`@ComponentScan`就是去扫描项目中的bean。在`@EnableAutoConfiguration`中主要依赖与`@AutoConfigurationPackage`和`@Import(AutoConfigurationImportSelector.class)`注解，
+
+
+
+
+
+
+
+### Mybatis
+
+#### 1、Dao 接口的工作原理是什么？Dao 接口里的方法，参数不同时，方法能重载吗？
+
+在Mybatis的最佳实践中，Dao接口通常会有一个对应的xml映射文件，在这个xml映射文件中的`<mapper>`标签中有一个`namaspace`属性，这个`namespace`属性的值就是这个Dao接口的全类名，通常我们把这个Dao接口称为`Mapper`接口。Dao接口中的方法名，就是xml映射文件中`MappedStatement`中的id值，接口中方法的参数就是传递给`sql`语句的参数。`Mapper`接口是没有实现类的。
+
+Dao接口的工作原理是通过JDK的动态代理来事项的。
+
+
+
+Dao接口里的方法，是支持重载的。但是xml里面的id不能重复。
+
+
+
+#### 2、MyBatis 是如何进行分页的？分页插件的原理是什么？
+
+- 分页方式
+  1. 查询所有的数据，然后在Java中进行分页
+  2. 在sql中使用limit进行分页
+  3. 使用分页插件
+
+- 分页插件的原理
+
+分页插件的基本原理是使用 MyBatis 提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的 sql，然后重写 sql，根据 dialect 方言，添加对应的物理分页语句和物理分页参数。
+
+
+
+#### 3、MyBatis 动态 sql 是做什么的？都有哪些动态 sql？能简述一下动态 sql 的执行原理不？
+
+
 
